@@ -5,15 +5,6 @@
 
 using namespace std;
 
-void initApplication();
-
-int main(int argc, char **argv) {
-
-	initApplication();
-
-	return 0;
-}
-
 void initApplication() {
 	int opcion = -1;
 	
@@ -23,7 +14,7 @@ void initApplication() {
 		cout << termcolor::red << "   Bienvenido al Algoritmo A*" << endl;
 		cout << "-------------------------------------" << endl;
 		cout << termcolor::blue << "1. Modo Interactivo" << endl;
-		cout << "2. Modo Automático" << endl;
+		cout << "2. Modo Automï¿½tico" << endl;
 		cout << "0. Salir" << endl;
 		cout << termcolor::reset << "Seleccione modo: ";
 		cin >> opcion;
@@ -43,3 +34,12 @@ void initApplication() {
 	}
 
 }
+
+
+int main() {
+
+	initApplication();
+
+	return 0;
+}
+

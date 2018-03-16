@@ -6,10 +6,11 @@ public:
 	size_t posX, posY;
 	Nodo* padre;
 
-	Nodo(){}
-	//Nodo(const Nodo&) {} //Constructor copia
-	Nodo(size_t x, size_t y) : posX(x), posY(y){}
+	Nodo() : posX(0), posY(0), padre(NULL){}
+	Nodo(size_t x, size_t y) : posX(x), posY(y), padre(NULL){}
 	~Nodo(){}
+
+	
 
 	bool operator==(const Nodo b) {
 		return posX == b.posX && posY == b.posY;

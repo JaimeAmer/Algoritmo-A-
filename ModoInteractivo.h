@@ -77,7 +77,17 @@ public:
 
 		}
 
-		Algoritmo_A(tablero, origen, destino).existeSolucion();
+		Algoritmo_A alg(tablero, origen, destino);
+		
+		if (alg.existeSolucion()){
+			list<Nodo> camino = alg.mejorCamino();
+			for (list<Nodo>::const_iterator cit = camino.cbegin(); cit != camino.cend(); cit++){
+				tablero[cit->posX][cit->posY] = '·';
+			}
+		}
+		tablero.imprimirMatriz();
+		system("pause");
+
 
 
 
