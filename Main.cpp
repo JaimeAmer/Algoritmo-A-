@@ -13,7 +13,7 @@ void initApplication() {
 		system("cls");
 		cout << termcolor::red << "   Bienvenido al Algoritmo A*" << endl;
 		cout << "-------------------------------------" << endl;
-		cout << termcolor::blue << "1. Modo Interactivo" << endl;
+		cout << termcolor::cyan << "1. Modo Interactivo" << endl;
 		cout << "2. Modo Autom�tico" << endl;
 		cout << "0. Salir" << endl;
 		cout << termcolor::reset << "Seleccione modo: ";

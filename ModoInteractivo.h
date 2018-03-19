@@ -13,7 +13,7 @@ using namespace std;
 class ModoInteractivo {
 public:
 	ModoInteractivo() {
-	
+		iniciar();
 	}
 
 	void iniciar() {
@@ -27,7 +27,12 @@ public:
 		}
 		int X = dimensionTablero[0] - '0';
 		int Y = dimensionTablero[2] - '0';
-		Matriz<char> tablero(X, Y);
+		Matriz<Nodo> tablero(X, Y);
+		for (size_t i = 0; i < tablero.numfils(); i++) {
+			for (size_t j = 0; j < tablero.numcols(); j++) {
+				tablero[i][j] = Nodo(i, j);
+			}
+		}
 		
 		X = Y = -1;
 		while (!tablero.posCorrecta(X,Y)) {
@@ -38,11 +43,9 @@ public:
 			cout << termcolor::reset << "Inserte posición de origen (A B): ";
 			cin >> X >> Y;
 		}
-		Nodo origen(X, Y);
-		tablero[X][Y] = 'A';
+		Nodo origen(X, Y, 'A');
+		tablero[origen] = origen;
 		tablero.imprimirMatriz();
-
-		//Nodo destino(X, Y);
 		
 		X = Y = -1;
 		while (!tablero.posCorrecta(X, Y) && origen != Nodo(X,Y)) {
@@ -54,8 +57,8 @@ public:
 			cin >> X >> Y;
 		}
 
-		Nodo destino(X, Y);
-		tablero[X][Y] = 'B';
+		Nodo destino(X, Y, 'B');
+		tablero[destino] = destino;
 		tablero.imprimirMatriz();
 
 		bool pedirObstaculos = true;
@@ -72,7 +75,8 @@ public:
 				pedirObstaculos = false;
 			}
 			else if (Nodo(X, Y) != origen) {
-				tablero[X][Y] = 'X';
+				Nodo obs(X, Y, 'X');
+				tablero[obs] = obs;
 			}
 
 		}
@@ -80,32 +84,19 @@ public:
 		Algoritmo_A alg(tablero, origen, destino);
 		
 		if (alg.existeSolucion()){
-			list<Nodo> camino = alg.mejorCamino();
-			for (list<Nodo>::const_iterator cit = camino.cbegin(); cit != camino.cend(); cit++){
-				tablero[cit->posX][cit->posY] = '·';
+			list<Nodo*> camino = alg.mejorCamino();
+			for (auto it = camino.cbegin(); it != camino.cend(); it++) {
+				tablero[**it].tipo = 'O';
+				tablero.imprimirMatriz();
+				system("pause");
 			}
 		}
-		tablero.imprimirMatriz();
 		system("pause");
-
-
-
-
-
-
-		
-		
-
 	}
 
 	~ModoInteractivo() {}
 
 private:
-
-	void ejecutarAlgoritmo() {
-
-	}
-
 
 };
 

@@ -17,6 +17,7 @@
 #include <vector>
 #include <iostream>
 #include "termcolor.hpp"
+#include "Nodo.h"
 
 template <typename Object>
 class Matriz {
@@ -32,6 +33,10 @@ public:
     std::vector<Object> & operator[](size_t f) {
         return datos[f];
     }
+
+	Object &operator[](Nodo n) {
+		return datos[n.posX][n.posY];
+	}
     
     // métodos que lanzan una excepción si la posición no existe
     Object const& at(size_t f, size_t c) const {
@@ -48,9 +53,13 @@ public:
         return 0 <= f && f < numfils() && 0 <= c && c < numcols();
     }
 
+	bool posCorrecta(const Nodo &n) {
+		return 0 <= n.posX && n.posX < numfils() && 0 <= n.posY && n.posY < numcols();
+	}
+
 	void imprimirMatriz() {
 		for (size_t i = 0; i < numfils(); i++) {
-			std::cout << termcolor::red << i << " ";
+			std::cout << termcolor::cyan << i << " ";
 			for (size_t j = 0; j < numcols(); j++) {
 				std::cout << termcolor::reset << datos[i][j] << " ";
 			}
@@ -58,7 +67,7 @@ public:
 		}
 		std::cout << "  ";
 		for (size_t i = 0; i < numfils(); i++) {
-			std::cout << termcolor::red << i << " ";
+			std::cout << termcolor::cyan << i << " ";
 		}
 		std::cout << termcolor::reset << std::endl;
 	}
