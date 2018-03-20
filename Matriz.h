@@ -34,6 +34,10 @@ public:
         return datos[f];
     }
 
+	Object const &operator[](Nodo n) const{
+		return datos[n.posX][n.posY];
+	}
+
 	Object &operator[](Nodo n) {
 		return datos[n.posX][n.posY];
 	}
@@ -59,7 +63,7 @@ public:
 
 	void imprimirMatriz() {
 		for (size_t i = 0; i < numfils(); i++) {
-			std::cout << termcolor::cyan << i << " ";
+			std::cout << termcolor::red << i << " ";
 			for (size_t j = 0; j < numcols(); j++) {
 				std::cout << termcolor::reset << datos[i][j] << " ";
 			}
@@ -67,7 +71,7 @@ public:
 		}
 		std::cout << "  ";
 		for (size_t i = 0; i < numfils(); i++) {
-			std::cout << termcolor::cyan << i << " ";
+			std::cout << termcolor::red << i << " ";
 		}
 		std::cout << termcolor::reset << std::endl;
 	}

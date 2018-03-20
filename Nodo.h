@@ -19,9 +19,9 @@ public:
 		float distanciaADestino = distancia(actual, dst) + distancia(src, actual);
 		float distanciaBDestino = distancia(otro, dst) + distancia(src, otro);
 
-		if (distanciaADestino < distanciaBDestino)
-			return true;
-		else return false;
+		if (distanciaADestino > distanciaBDestino)
+			return false;
+		else return true;
 
 	}
 
@@ -51,8 +51,8 @@ public:
 
 private:
 	
-	float distancia(const Nodo &origen, const Nodo &destino) {
-		return (float)sqrt(pow(destino.posX - origen.posX, 2) + pow(destino.posY - origen.posY, 2));
+	int distancia(const Nodo &origen, const Nodo &destino) {
+		return pow(destino.posX - origen.posX, 2) + pow(destino.posY - origen.posY, 2);
 	}
 
 };

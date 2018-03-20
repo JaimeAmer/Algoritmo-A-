@@ -24,6 +24,7 @@ public:
 			cout << "-------------------------------------" << endl;
 			cout << termcolor::reset << "Inserte dimensiones de la tabla (AxB): ";
 			cin >> dimensionTablero;
+
 		}
 		int X = dimensionTablero[0] - '0';
 		int Y = dimensionTablero[2] - '0';
@@ -83,20 +84,89 @@ public:
 
 		Algoritmo_A alg(tablero, origen, destino);
 		
+
 		if (alg.existeSolucion()){
 			list<Nodo*> camino = alg.mejorCamino();
-			for (auto it = camino.cbegin(); it != camino.cend(); it++) {
-				tablero[**it].tipo = 'O';
-				tablero.imprimirMatriz();
-				system("pause");
+			double tiempoEjecucion = alg.tiempoEjecucion();
+			int i = 0;
+			string rutaFichero = "";
+			int op = -1;
+			while (op != 0) {
+				system("cls");
+				cout << termcolor::red << "   Algoritmo A* - Modo Interactivo" << endl;
+				cout << "-------------------------------------" << endl;
+				cout << termcolor::green << "Existe solucion. Tiempo de ejecucion: " << tiempoEjecucion << " s" << endl;
+				cout << termcolor::cyan << "1. Mostrar solucion" << endl
+					<< "2. Mostrar solucion paso a paso" << endl
+					<< "3. Exportar fichero del tablero" << endl
+					<< "0. Salir al menu principal" << endl
+					<< termcolor::reset << "Opcion: ";
+				cin >> op;
+
+				switch (op) {
+				case 1: 
+					for (auto it = camino.cbegin(); it != camino.cend(); it++) {
+						tablero[**it].tipo = 'O';
+					}
+					system("cls");
+					cout << termcolor::red << "   Algoritmo A* - Modo Interactivo" << endl;
+					cout << "-------------------------------------" << endl;
+					tablero.imprimirMatriz();
+					system("pause");
+					for (auto it = camino.cbegin(); it != camino.cend(); it++) {
+						tablero[**it].tipo = '\0';
+					}
+					break;
+				case 2:
+					system("cls");
+					cout << termcolor::red << "   Algoritmo A* - Modo Interactivo" << endl;
+					cout << "-------------------------------------" << endl;
+					tablero.imprimirMatriz();
+					cout << termcolor::cyan << "Num. Iteracion: " << i << termcolor::reset << endl;
+					system("pause");
+					i++;
+					for (auto it = camino.cbegin(); it != camino.cend(); it++) {
+						tablero[**it].tipo = 'O';
+						system("cls");
+						cout << termcolor::red << "   Algoritmo A* - Modo Interactivo" << endl;
+						cout << "-------------------------------------" << endl;
+						tablero.imprimirMatriz();
+						cout << termcolor::cyan << "Num. Iteracion: " << i << termcolor::reset << endl;
+						system("pause");
+						i++;
+					}
+					for (auto it = camino.cbegin(); it != camino.cend(); it++) {
+						tablero[**it].tipo = '\0';
+					}
+					break;
+				case 3:
+					system("cls");
+					cout << termcolor::red << "   Algoritmo A* - Modo Interactivo" << endl;
+					cout << "-------------------------------------" << endl;
+					cout << termcolor::reset << "Introduce nombre o ruta del fichero: ";
+					cin >> rutaFichero;
+					if (alg.exportarFichero(rutaFichero))
+						cout << termcolor::green << "Fichero exportado correctamente." << termcolor::reset << endl;
+					else cout << termcolor::red << "Ha habido un error al exportar el fichero" << termcolor::reset << endl;
+					system("pause");
+					break;
+				default:
+					break;
+				}
 			}
+			return;
 		}
-		system("pause");
+		else {
+			system("cls");
+			cout << termcolor::red << "   Algoritmo A* - Modo Interactivo" << endl;
+			cout << "-------------------------------------" << endl;
+			cout << termcolor::reset << "No es posible alcanzar ninguna solución." << endl;
+			system("pause");
+			return;
+		}
 	}
 
 	~ModoInteractivo() {}
-
-private:
 
 };
 

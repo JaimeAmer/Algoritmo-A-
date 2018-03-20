@@ -25,7 +25,7 @@ public:
 	bool existeSolucion(){return _meta;}
 	bool existeFallo() {return _fallo;}
 	list<Nodo*> mejorCamino(){return _mejorCamino;}
-	double tiempoEjecucion(){return _tiempoEjecucion;}
+	double tiempoEjecucion(){return double(_tiempoEjecucion)/CLOCKS_PER_SEC;}
 
 	bool exportarFichero(const string nombreFichero){
 		ofstream fichero;
@@ -33,8 +33,8 @@ public:
 
 		if(fichero.is_open()){
 			fichero << _tablero.numfils() << " " << _tablero.numcols() << endl;
+			fichero << _origen->posX << " " << _origen->posY << endl;
 			fichero << _destino->posX << " " << _destino->posY << endl;
-			fichero << _origen->posX << " " << _destino->posY << endl;
 			for(size_t i=0; i<_tablero.numfils(); i++){
 				for(size_t j=0; j<_tablero.numcols(); j++){
 					if(_tablero[i][j].esObstaculo()){
@@ -65,6 +65,7 @@ private:
 				for (Nodo *aux = actual->padre; aux->padre != NULL; aux = aux->padre){
 					_mejorCamino.push_front(aux);
 				}
+				_tiempoEjecucion = clock() - inicioEjecucion;
 				return;
 			}
 
@@ -74,7 +75,7 @@ private:
 			for (size_t dir = 0; dir < 8; dir++) {
 				Nodo calcularSiguiente = siguienteNodo(actual, dir);
 				if(_tablero.posCorrecta(calcularSiguiente)){
-					Nodo *siguiente = &_tablero[calcularSiguiente];
+					Nodo* siguiente = &_tablero[calcularSiguiente];
 					bool mejor = false;
 					if (findElemFromList(_cerrada, *siguiente) != _cerrada.end())
 						continue;
@@ -99,27 +100,26 @@ private:
 				}
 			}
 		}
-		_tiempoEjecucion = clock() - inicioEjecucion;
 	}
 
 	Nodo siguienteNodo(Nodo *m, int dir) {
 		Nodo siguiente;
 		switch (dir) {
-		case 0: siguiente = Nodo(m->posX - 1, m->posY - 1); break;//arriba,izquierda
-		case 1: siguiente = Nodo(m->posX - 1, m->posY); break;//arriba
-		case 2: siguiente = Nodo(m->posX - 1, m->posY + 1); break;//arriba,derecha
-		case 3: siguiente = Nodo(m->posX, m->posY + 1); break;//derecha
-		case 4: siguiente = Nodo(m->posX + 1, m->posY + 1); break;//abajo,derecha
-		case 5: siguiente = Nodo(m->posX + 1, m->posY); break;//abajo
-		case 6: siguiente = Nodo(m->posX + 1, m->posY - 1); break;//abajo,izquierda
-		case 7: siguiente = Nodo(m->posX, m->posY - 1); break;//izquierda
+		case 0: siguiente = Nodo(m->posX - 1, m->posY); break;//arriba
+		case 1: siguiente = Nodo(m->posX, m->posY + 1); break;//derecha
+		case 2: siguiente = Nodo(m->posX + 1, m->posY); break;//abajo
+		case 3: siguiente = Nodo(m->posX, m->posY - 1); break;//izquierda
+		case 4: siguiente = Nodo(m->posX - 1, m->posY - 1); break;//arriba,izquierda	
+		case 5: siguiente = Nodo(m->posX - 1, m->posY + 1); break;//arriba,derecha
+		case 6: siguiente = Nodo(m->posX + 1, m->posY - 1); break;//abajo,izquierda	
+		case 7: siguiente = Nodo(m->posX + 1, m->posY + 1); break;//abajo,derecha		
 		default: siguiente = Nodo(-1,-1); break;
 		}
 		return siguiente;
 	}
 
-	float distancia(const Nodo &origen, const Nodo &destino){
-		return (float) sqrt(pow(destino.posX-origen.posX,2) + pow(destino.posY-origen.posY,2));
+	int distancia(const Nodo &origen, const Nodo &destino) {
+		return pow(destino.posX - origen.posX, 2) + pow(destino.posY - origen.posY, 2);
 	}
 
 	list<Nodo*>::iterator findElemFromList(list<Nodo*> &lista, const Nodo &n){
