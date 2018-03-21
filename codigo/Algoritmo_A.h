@@ -7,7 +7,6 @@
 #include <list>
 #include <cmath>
 #include <ctime>
-#include <queue>
 #include "Matriz.h"
 #include "Nodo.h"
 
